@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on ElixirFocus</title>
-    <link>https://elixirfocus.com/categories/</link>
+    <link>https://elixirfocus.github.io/categories/</link>
     <description>Recent content in Categories on ElixirFocus</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     
-	<atom:link href="https://elixirfocus.com/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://elixirfocus.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     
     <item>
       <title>Some Topic</title>
-      <link>https://elixirfocus.com/posts/some-topic/</link>
+      <link>https://elixirfocus.github.io/posts/some-topic/</link>
       <pubDate>Mon, 24 May 2021 20:54:38 -0400</pubDate>
       
-      <guid>https://elixirfocus.com/posts/some-topic/</guid>
+      <guid>https://elixirfocus.github.io/posts/some-topic/</guid>
       <description>This will be a good post.</description>
     </item>
     
