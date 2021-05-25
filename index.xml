@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Home on ElixirFocus</title>
+    <link>https://elixirfocus.com/</link>
+    <description>Recent content in Home on ElixirFocus</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Mon, 24 May 2021 20:54:38 -0400</lastBuildDate>
+    
+	<atom:link href="https://elixirfocus.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+    <item>
+      <title>Some Topic</title>
+      <link>https://elixirfocus.com/posts/some-topic/</link>
+      <pubDate>Mon, 24 May 2021 20:54:38 -0400</pubDate>
+      
+      <guid>https://elixirfocus.com/posts/some-topic/</guid>
+      <description>This will be a good post.</description>
+    </item>
+    
+    
+    
+    
+  </channel>
+</rss>
