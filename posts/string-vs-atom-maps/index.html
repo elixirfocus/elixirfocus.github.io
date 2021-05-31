@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Educational content for Elixir engineers.">
+    
+    <link rel="shortcut icon" href="https://elixirfocus.com/favicon.ico">
+    
+    <link rel="stylesheet" href="/css/style.min.css">
+
+    <title>String-based Maps vs Atom-based Maps</title>
+</head>
+<body><header id="banner">
+    <h2><a href="https://elixirfocus.com">ElixirFocus</a></h2>
+    <nav>
+        <ul>
+            <li>
+                <a href="/" title="posts">posts</a>
+            </li><li>
+                <a href="/about/" title="about">about</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main id="content">
+<article>
+    <header id="post-header">
+        <h1>String-based Maps vs Atom-based Maps</h1>
+        <div>
+            <time>May 31, 2021</time>
+            </div>
+    </header><p>While browsing the ElixirForum the other day I spotted <a href="https://elixirforum.com/t/map-with-atom-string-keyword-list-its-blocking-me-so-much-as-a-beginner-elixr-enthusiast/39954">this question</a> from Dominic which resonated deeply with my own experiences learning Elixir. Dominic asks:</p>
+<blockquote>
+<p>I&rsquo;m constantly being blocked by maps' different construct <code>%{:atom =&gt; &quot;value&quot;}</code> vs. <code>%{&quot;string&quot; =&gt; &quot;value&quot;}</code> vs <code>%{name: &quot;value&quot;}</code>.</p>
+<p>It does not appears to be consistent enough and in my case are often the cause of all &ldquo;blockage&rdquo; I have.</p>
+<p>I understand them, I&rsquo;m a long time Elm dev/fan and used to FP, but I don&rsquo;t know why Elixir&rsquo;s maps are so weird to me.</p>
+</blockquote>
+<p>Later in the post Dominic notes he gets an error complaining about mixed keys: <code>(Ecto.CastError) expected params to be a map with atoms or string keys</code>.</p>
+<p>So with all that said, why the lack of consistency? Why don&rsquo;t people just use String-based Maps or just use Atom-based Maps? Why do all these Phoenix tutorials jump from one to the other?</p>
+<p>The short answer is, if given the opportunity I think most Elixir developers would lean on Atom-based Maps at all times, but we need to work within the constrains of our deployments. As preferable as <code>:atoms</code> may be they are not garbage collected and if you are allowing dynamic content into the system (from say a web request) and converting that content to Atom-based Maps you leave yourself open to running out of memory from a bad actor or even just natural system behavior. It is for this reason the web request tooling within Phoenix will transform those payloads into String-based Maps.</p>
+<p>With that explanation out of the way, let&rsquo;s talk about Map syntax. While Dominic quotes three styles of map syntax there are really only two patterns to keep in your head:</p>
+<ul>
+<li><code>%{&quot;name&quot; =&gt; value}</code> which is a Map syntax using the arrow <code>=&gt;</code> token; and,</li>
+<li><code>%{name: value}</code> which is an arrow-less version of the Map syntax made exclusively for Atom-based Maps.</li>
+</ul>
+<p>The third style Dominic shared, <code>%{:atom =&gt; value}</code> I would group into the arrow <code>=&gt;</code> camp. Maps can use Strings or Atoms as keys and so no real syntax sugar is present in this example.</p>
+<p>I think one of the real jarring issues for people new to Elixir when it comes to the Atom-exclusive Map syntax is that it has the colon of the Atom key on the right-hand side. You&rsquo;ll see this with <a href="https://elixirschool.com/en/lessons/basics/collections/#keyword-lists">Keyword lists</a> as well. Having multiple ways to express a Map can be one level of confusion, but then to combine it with multiple ways to express an <code>:atom</code> feels like a compounding problem.</p>
+<p>The good news, I can share as someone who has been doing Elixir for a few years now, is that this confusion is <strong>not</strong> something I&rsquo;ve experienced elsewhere in the language. On the whole I&rsquo;ve found Elixir syntax to be straightforward and approachable. Getting comfortable with the Atom syntax sugar of Maps and Keyword lists took a little time but eventually it stuck.</p>
+<p>One of the deeper concepts that comes out of this discussion however is the need for String-based keys from content outside the system. I think it is very helpful to have that external boundary in mind when building your code. Let the web or API contexts handle validating or shaping those String-based Map values and then have a meaningful transformation into the Atom-based Maps that will accept values for your core layer. With that pattern in mind your tests can follow along, simulating String-based Map payloads for controllers and Atom-based Map values for core context testing, and thus avoiding the kind of Ecto error Dominic shared.</p>
+<p>For more on boundaries check out the <a href="https://medium.com/very-big-things/towards-maintainable-elixir-the-core-and-the-interface-c267f0da43">The Core and the Interface</a> from the excellent Towards Maintainable Elixir series.</p>
+<script async data-uid="9a535df048" src="https://elixirfocus.ck.page/9a535df048/index.js"></script>
+</article>
+
+        </main><footer id="footer">
+    Copyright © 2021 ElixirFocus
+</footer>
+</body>
+</html>

@@ -2,23 +2,28 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on ElixirFocus</title>
-    <link>https://elixirfocus.github.io/tags/</link>
+    <link>https://elixirfocus.com/tags/</link>
     <description>Recent content in Tags on ElixirFocus</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     
-	<atom:link href="https://elixirfocus.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://elixirfocus.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     
     <item>
-      <title>Some Topic</title>
-      <link>https://elixirfocus.github.io/posts/some-topic/</link>
-      <pubDate>Mon, 24 May 2021 20:54:38 -0400</pubDate>
+      <title>String-based Maps vs Atom-based Maps</title>
+      <link>https://elixirfocus.com/posts/string-vs-atom-maps/</link>
+      <pubDate>Mon, 31 May 2021 10:56:17 -0400</pubDate>
       
-      <guid>https://elixirfocus.github.io/posts/some-topic/</guid>
-      <description>This will be a good post.</description>
+      <guid>https://elixirfocus.com/posts/string-vs-atom-maps/</guid>
+      <description>While browsing the ElixirForum the other day I spotted this question from Dominic which resonated deeply with my own experiences learning Elixir. Dominic asks:
+ I&amp;rsquo;m constantly being blocked by maps&#39; different construct %{:atom =&amp;gt; &amp;quot;value&amp;quot;} vs. %{&amp;quot;string&amp;quot; =&amp;gt; &amp;quot;value&amp;quot;} vs %{name: &amp;quot;value&amp;quot;}.
+It does not appears to be consistent enough and in my case are often the cause of all &amp;ldquo;blockage&amp;rdquo; I have.
+I understand them, I&amp;rsquo;m a long time Elm dev/fan and used to FP, but I don&amp;rsquo;t know why Elixir&amp;rsquo;s maps are so weird to me.</description>
     </item>
+    
+    
     
     
     
