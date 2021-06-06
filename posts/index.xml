@@ -6,9 +6,21 @@
     <description>Recent content in Posts on ElixirFocus</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Mon, 31 May 2021 10:56:17 -0400</lastBuildDate>
+    <lastBuildDate>Sun, 06 Jun 2021 12:00:00 -0400</lastBuildDate>
     
 	<atom:link href="https://elixirfocus.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+    <item>
+      <title>Improve the Clarity of Your Elixir Code Through Expressive and Consistent Language</title>
+      <link>https://elixirfocus.com/posts/programming-terminology/</link>
+      <pubDate>Sun, 06 Jun 2021 12:00:00 -0400</pubDate>
+      
+      <guid>https://elixirfocus.com/posts/programming-terminology/</guid>
+      <description>One of our primary day-to-day responsibilities as programmers is to communicate. We need to express our ideas, explain our work and document our code. Having a strong vocabulary and explicit intentions behind the words you (and your team) choose can greatly help avoid confusion.
+Take some time as a team to talk about how you name and describe things. Embrace productive confrontation when you identify inconsistencies and work towards creating (and documenting!</description>
+    </item>
     
     
     
