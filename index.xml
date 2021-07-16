@@ -6,9 +6,23 @@
     <description>Recent content in Home on ElixirFocus</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 06 Jun 2021 12:00:00 -0400</lastBuildDate>
+    <lastBuildDate>Fri, 16 Jul 2021 16:12:03 -0400</lastBuildDate>
     
 	<atom:link href="https://elixirfocus.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+    <item>
+      <title>Resources and Suggestions to Find Elixir-based Employment</title>
+      <link>https://elixirfocus.com/posts/elixir-job-resources/</link>
+      <pubDate>Fri, 16 Jul 2021 16:12:03 -0400</pubDate>
+      
+      <guid>https://elixirfocus.com/posts/elixir-job-resources/</guid>
+      <description>The following is a collection of resources and suggestions for people looking to acquire full time or project specific employment writing Elixir.
+Elixir Job Listings First we have the aptly named elixirjobs.net, which provides an active catalog of known job listings.
+I&amp;rsquo;d also highly recommend the #jobs, #jobs_chat, and #looking_for_contract rooms of the official Elixir Slack
+Elixir Radar which may be more well known for its weekly newsletter also hosts a job board, which is usually promoted in said emails.</description>
+    </item>
     
     
     
