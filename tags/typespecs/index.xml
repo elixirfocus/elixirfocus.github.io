@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on ElixirFocus</title>
-    <link>https://elixirfocus.com/categories/</link>
-    <description>Recent content in Categories on ElixirFocus</description>
+    <title>typespecs on ElixirFocus</title>
+    <link>https://elixirfocus.com/tags/typespecs/</link>
+    <description>Recent content in typespecs on ElixirFocus</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
+    <lastBuildDate>Wed, 20 Jan 2021 08:51:42 -0500</lastBuildDate>
     
-	<atom:link href="https://elixirfocus.com/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://elixirfocus.com/tags/typespecs/index.xml" rel="self" type="application/rss+xml" />
     
     
     
