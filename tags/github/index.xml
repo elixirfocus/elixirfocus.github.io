@@ -13,6 +13,18 @@
     
     
     <item>
+      <title>Retro Taxi: September 2021 Update</title>
+      <link>https://elixirfocus.com/posts/retro-taxi-project-sept-2021-update/</link>
+      <pubDate>Thu, 02 Sep 2021 09:00:41 -0400</pubDate>
+      
+      <guid>https://elixirfocus.com/posts/retro-taxi-project-sept-2021-update/</guid>
+      <description>A few months ago I kicked off the next sample project for this website, a team retrospective board built using Phoenix LiveView called RetroTaxi. More info about the project is available in the project kickoff and today I&amp;rsquo;ll share how it has been coming along.
+  From the scope of the original pitch document you&amp;rsquo;d like to think I would have gotten further along by now but a mix of client responsibilities and then a extended personal vacation kept me distracted.</description>
+    </item>
+    
+    
+    
+    <item>
       <title>Resources and Suggestions to Find Elixir-based Employment</title>
       <link>https://elixirfocus.com/posts/elixir-job-resources/</link>
       <pubDate>Fri, 16 Jul 2021 16:12:03 -0400</pubDate>

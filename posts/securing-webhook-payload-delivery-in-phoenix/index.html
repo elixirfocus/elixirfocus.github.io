@@ -40,7 +40,7 @@
 <h2 id="validating-a-payload-signature-in-phoenix">Validating a Payload Signature in Phoenix</h2>
 <p>To get this to work in Phoenix we&rsquo;ll need a few core behaviors.</p>
 <p>First, we will want the ability to generate a signature based on a payload and a secret.</p>
-<div class="highlight"><pre class="chroma"><code class="language-elixir" data-lang="elixir">  <span class="kd">def</span> <span class="n">generate_payload_signature</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="no">nil</span><span class="p">)</span> <span class="k">do</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir">  <span class="kd">def</span> <span class="n">generate_payload_signature</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="no">nil</span><span class="p">)</span> <span class="k">do</span>
     <span class="p">{</span><span class="ss">:error</span><span class="p">,</span> <span class="ss">:missing_app_secret</span><span class="p">}</span>
   <span class="k">end</span>
 
@@ -48,7 +48,7 @@
     <span class="p">{</span><span class="ss">:ok</span><span class="p">,</span> <span class="ss">:crypto</span><span class="o">.</span><span class="n">mac</span><span class="p">(</span><span class="ss">:hmac</span><span class="p">,</span> <span class="ss">:sha256</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="nc">Base</span><span class="o">.</span><span class="n">encode16</span><span class="p">(</span><span class="ss">case</span><span class="p">:</span> <span class="ss">:lower</span><span class="p">)}</span>
   <span class="k">end</span>
 </code></pre></div><p>Second we&rsquo;ll need a way to pull out the signature from the connection&rsquo;s request headers, if present:</p>
-<div class="highlight"><pre class="chroma"><code class="language-elixir" data-lang="elixir">  <span class="kd">defp</span> <span class="n">signature_from_req_headers</span><span class="p">(</span><span class="n">req_headers</span><span class="p">)</span> <span class="k">do</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir">  <span class="kd">defp</span> <span class="n">signature_from_req_headers</span><span class="p">(</span><span class="n">req_headers</span><span class="p">)</span> <span class="k">do</span>
     <span class="k">case</span> <span class="nc">List</span><span class="o">.</span><span class="n">keyfind</span><span class="p">(</span><span class="n">req_headers</span><span class="p">,</span> <span class="s2">&#34;x-hub-signature&#34;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">do</span>
       <span class="p">{</span><span class="s2">&#34;x-hub-signature&#34;</span><span class="p">,</span> <span class="n">full_signature</span><span class="p">}</span> <span class="o">-&gt;</span>
         <span class="s2">&#34;sha256=&#34;</span> <span class="o">&lt;&gt;</span> <span class="n">signature</span> <span class="o">=</span> <span class="n">full_signature</span>
@@ -59,7 +59,7 @@
     <span class="k">end</span>
   <span class="k">end</span>
 </code></pre></div><p>Finally we&rsquo;ll connect the dots creating a simple call site function where someone can pass in a <code>Plug.Conn</code> and a payload and ask if it is authentic.</p>
-<div class="highlight"><pre class="chroma"><code class="language-elixir" data-lang="elixir">  <span class="kd">def</span> <span class="n">is_authentic_payload?</span><span class="p">(%</span><span class="nc">Conn</span><span class="p">{</span><span class="ss">req_headers</span><span class="p">:</span> <span class="n">req_headers</span><span class="p">},</span> <span class="n">payload</span><span class="p">)</span> <span class="k">do</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir">  <span class="kd">def</span> <span class="n">is_authentic_payload?</span><span class="p">(%</span><span class="nc">Conn</span><span class="p">{</span><span class="ss">req_headers</span><span class="p">:</span> <span class="n">req_headers</span><span class="p">},</span> <span class="n">payload</span><span class="p">)</span> <span class="k">do</span>
     <span class="k">case</span> <span class="n">signature_from_req_headers</span><span class="p">(</span><span class="n">req_headers</span><span class="p">)</span> <span class="k">do</span>
       <span class="no">nil</span> <span class="o">-&gt;</span>
         <span class="no">false</span>
@@ -85,7 +85,7 @@
 </code></pre></div><p>There are a few ways you could go about getting this check into your controller code. The most challenging part is that out of the box Phoenix does not make the raw body of an HTTP POST request available to you through the <code>Plug.Conn</code> struct. Instead a default Phoenix app uses parsers and converts such payloads into native Elixir value types.</p>
 <p>One way to turn off this behavior is to edit your Phoenix app&rsquo;s <code>endpoint.ex</code> file and remove the auto-parsing behavior for all routes of that endpoint. You can find some more info about doing this in the <a href="https://hexdocs.pm/plug/Plug.Parsers.html#module-custom-body-reader">Plug docs</a> in a section titled &ldquo;Custom body reader&rdquo;.</p>
 <p>Since this parsing behavior is helpful for non-webhook requests in our example app, we will relocate the parsing configurations out of the <code>endpoint.ex</code> file and into the pipeline definition on the <code>router.ex</code> file. This way we can keep the parsing behavior working for the rest of the example app and do something custom for our webhook endpoint.</p>
-<div class="highlight"><pre class="chroma"><code class="language-diff" data-lang="diff">defmodule WebhookSignatureWeb.Endpoint do
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff">defmodule WebhookSignatureWeb.Endpoint do
   # CONDENSED FOR DEMONSTRATION
 
 <span class="gd">-  plug Plug.Parsers,
@@ -94,7 +94,7 @@
 </span><span class="gd">-    json_decoder: Phoenix.json_library()
 </span><span class="gd"></span>
 end
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-diff" data-lang="diff">defmodule WebhookSignatureWeb.Router do
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff">defmodule WebhookSignatureWeb.Router do
   # CONDENSED FOR DEMONSTRATION
 
   pipeline :browser do
@@ -114,7 +114,7 @@ end
 
 </code></pre></div><p>Our next question is where do we this verification check? In our example app, we will keep the controller code focused on the behavior of processing the payload and put the behaviors for signature verification inside some plugs as part of the router&rsquo;s pipeline for this specific endpoint.</p>
 <p>The first plug will read the contents of the <code>Plug.Conn</code> body into a new assigns value <code>:raw_body</code>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">WebhookSignatureWeb.Plugs.RawBodyPassthrough</span> <span class="k">do</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">WebhookSignatureWeb.Plugs.RawBodyPassthrough</span> <span class="k">do</span>
   <span class="na">@moduledoc</span> <span class="sh">&#34;&#34;&#34;
 </span><span class="sh">  This plug will read the body for `POST` and PUT` request and store it into a
 </span><span class="sh">  new assigns key `:raw_body`.
@@ -147,7 +147,7 @@ end
   <span class="kd">def</span> <span class="n">call</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_opts</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="nc">Conn</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="ss">:cached_body</span><span class="p">,</span> <span class="p">%{})</span>
 <span class="k">end</span>
 </code></pre></div><p>The second plug will pull out the signature from the HTTP request headers and then verify it matches our expectations.</p>
-<div class="highlight"><pre class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">WebhookSignatureWeb.Plugs.RequirePayloadSignatureMatch</span> <span class="k">do</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">WebhookSignatureWeb.Plugs.RequirePayloadSignatureMatch</span> <span class="k">do</span>
   <span class="na">@moduledoc</span> <span class="sh">&#34;&#34;&#34;
 </span><span class="sh">  This plug will verify that the payload from a webhook request matches the 
 </span><span class="sh">  accompanying header signature, based on a previously shared `webhook_secret`.
@@ -181,7 +181,7 @@ end
   <span class="kd">def</span> <span class="n">call</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_opts</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="nc">Conn</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="ss">:cached_body</span><span class="p">,</span> <span class="p">%{})</span>
 <span class="k">end</span>
 </code></pre></div><p>Finally we&rsquo;ll bring it all together, defining an <code>:api</code> pipeline and using that pipeline for our <code>GitHubWebhookController</code> route.</p>
-<div class="highlight"><pre class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">WebhookSignatureWeb.Router</span> <span class="k">do</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">WebhookSignatureWeb.Router</span> <span class="k">do</span>
   <span class="c1"># CONDENSED FOR DEMONSTRATION</span>
 
   <span class="n">pipeline</span> <span class="ss">:api</span> <span class="k">do</span>
@@ -213,5 +213,7 @@ end
         </main><footer id="footer">
     Copyright © 2021 ElixirFocus
 </footer>
-</body>
+<script async src="//static.getclicky.com/101330369.js"></script>
+        <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/101330369ns.gif" /></p></noscript>
+    </body>
 </html>

@@ -55,7 +55,7 @@
 <h3 id="get-vs-fetch">Get vs Fetch</h3>
 <p>There are a few notable Elixir patterns to be mindful of with the terms <code>get</code> vs <code>fetch</code>.</p>
 <p>First let&rsquo;s check out <a href="https://hexdocs.pm/elixir/Map.html#get/3">Map.get/3</a> which will return a value for the given key or a default value if the key is not found.</p>
-<div class="highlight"><pre class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">iex</span><span class="o">&gt;</span> <span class="nc">Map</span><span class="o">.</span><span class="n">get</span><span class="p">(%{},</span> <span class="ss">:a</span><span class="p">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">iex</span><span class="o">&gt;</span> <span class="nc">Map</span><span class="o">.</span><span class="n">get</span><span class="p">(%{},</span> <span class="ss">:a</span><span class="p">)</span>
 <span class="no">nil</span>
 <span class="n">iex</span><span class="o">&gt;</span> <span class="nc">Map</span><span class="o">.</span><span class="n">get</span><span class="p">(%{</span><span class="ss">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="ss">:a</span><span class="p">)</span>
 <span class="mi">1</span>
@@ -64,12 +64,12 @@
 <span class="n">iex</span><span class="o">&gt;</span> <span class="nc">Map</span><span class="o">.</span><span class="n">get</span><span class="p">(%{</span><span class="ss">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="ss">:b</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="mi">3</span>
 </code></pre></div><p>Next we have <a href="https://hexdocs.pm/elixir/Map.html#fetch/2">Map.fetch/2</a> which will return an :ok tuple or :error if the key is not found.</p>
-<div class="highlight"><pre class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">iex</span><span class="o">&gt;</span> <span class="nc">Map</span><span class="o">.</span><span class="n">fetch</span><span class="p">(%{</span><span class="ss">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="ss">:a</span><span class="p">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">iex</span><span class="o">&gt;</span> <span class="nc">Map</span><span class="o">.</span><span class="n">fetch</span><span class="p">(%{</span><span class="ss">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="ss">:a</span><span class="p">)</span>
 <span class="p">{</span><span class="ss">:ok</span><span class="p">,</span> <span class="mi">1</span><span class="p">}</span>
 <span class="n">iex</span><span class="o">&gt;</span> <span class="nc">Map</span><span class="o">.</span><span class="n">fetch</span><span class="p">(%{</span><span class="ss">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="ss">:b</span><span class="p">)</span>
 <span class="ss">:error</span>
 </code></pre></div><p>There is also a bang version of fetch, <a href="https://hexdocs.pm/elixir/Map.html#fetch!/2">Map.fetch!/2</a> which will return the value or raise an exception if the key is not found.</p>
-<div class="highlight"><pre class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">iex</span><span class="o">&gt;</span> <span class="nc">Map</span><span class="o">.</span><span class="n">fetch!</span><span class="p">(%{</span><span class="ss">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="ss">:a</span><span class="p">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">iex</span><span class="o">&gt;</span> <span class="nc">Map</span><span class="o">.</span><span class="n">fetch!</span><span class="p">(%{</span><span class="ss">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="ss">:a</span><span class="p">)</span>
 <span class="mi">1</span>
 </code></pre></div><p>The takeaways from these language patterns I take note of are the following:</p>
 <ul>
@@ -116,5 +116,7 @@
         </main><footer id="footer">
     Copyright © 2021 ElixirFocus
 </footer>
-</body>
+<script async src="//static.getclicky.com/101330369.js"></script>
+        <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/101330369ns.gif" /></p></noscript>
+    </body>
 </html>

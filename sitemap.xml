@@ -1,96 +1,61 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
     <loc>https://elixirfocus.com/</loc>
-    <lastmod>2021-07-16T16:12:03-04:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2021-09-02T09:00:41-04:00</lastmod>
+  </url><url>
     <loc>https://elixirfocus.com/posts/</loc>
-    <lastmod>2021-07-16T16:12:03-04:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2021-09-02T09:00:41-04:00</lastmod>
+  </url><url>
+    <loc>https://elixirfocus.com/posts/retro-taxi-project-sept-2021-update/</loc>
+    <lastmod>2021-09-02T09:00:41-04:00</lastmod>
+  </url><url>
     <loc>https://elixirfocus.com/posts/elixir-job-resources/</loc>
     <lastmod>2021-07-16T16:12:03-04:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://elixirfocus.com/posts/programming-terminology/</loc>
     <lastmod>2021-06-06T12:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://elixirfocus.com/posts/string-vs-atom-maps/</loc>
     <lastmod>2021-05-31T10:56:17-04:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://elixirfocus.com/posts/retro-taxi-project-kickoff/</loc>
     <lastmod>2021-03-14T16:55:21-04:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://elixirfocus.com/tags/api/</loc>
     <lastmod>2021-02-22T14:00:00-05:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://elixirfocus.com/tags/github/</loc>
     <lastmod>2021-02-22T14:00:00-05:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://elixirfocus.com/posts/securing-webhook-payload-delivery-in-phoenix/</loc>
     <lastmod>2021-02-22T14:00:00-05:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://elixirfocus.com/tags/security/</loc>
     <lastmod>2021-02-22T14:00:00-05:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://elixirfocus.com/tags/</loc>
     <lastmod>2021-02-22T14:00:00-05:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://elixirfocus.com/tags/webhooks/</loc>
     <lastmod>2021-02-22T14:00:00-05:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://elixirfocus.com/tags/dialyzer/</loc>
     <lastmod>2021-01-20T08:51:42-05:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://elixirfocus.com/tags/typespecs/</loc>
     <lastmod>2021-01-20T08:51:42-05:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://elixirfocus.com/posts/typespecs-and-dialyzer-tradeoffs/</loc>
     <lastmod>2021-01-20T08:51:42-05:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://elixirfocus.com/about/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://elixirfocus.com/categories/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://elixirfocus.com/projects/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://elixirfocus.com/confirm-subscription/</loc>
   </url>
-  
 </urlset>
