@@ -6,9 +6,23 @@
     <description>Recent content in Tags on ElixirFocus</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Mon, 22 Feb 2021 14:00:00 -0500</lastBuildDate>
+    <lastBuildDate>Tue, 07 Sep 2021 08:00:00 -0400</lastBuildDate>
     
 	<atom:link href="https://elixirfocus.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+    <item>
+      <title>Using Schemaless Changesets to Separate Concerns Between the Web Context and the Business Context</title>
+      <link>https://elixirfocus.com/posts/ecto-schemaless-changesets/</link>
+      <pubDate>Tue, 07 Sep 2021 08:00:00 -0400</pubDate>
+      
+      <guid>https://elixirfocus.com/posts/ecto-schemaless-changesets/</guid>
+      <description>With schemaless changesets you have the power to hand craft validations for specific web form presentations and define firm boundaries of responsibilities between your web presentation layer and the business-specific contexts of your app.
+ It&amp;rsquo;s a story we can all relate with. A new app is born using mix phx.new hello.
+Some mix phx.gen generators are used to begin to shape a solution, perhaps something like:
+$ mix phx.</description>
+    </item>
     
     
     

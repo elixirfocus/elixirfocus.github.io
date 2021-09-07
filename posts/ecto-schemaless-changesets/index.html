@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ElixirFocus provides educational content for Elixir developers looking to evolve their coding skills.">
+    
+    <link rel="shortcut icon" href="https://elixirfocus.com/favicon.ico">
+    
+    <link rel="stylesheet" href="/css/style.min.css">
+
+    <title>Using Schemaless Changesets to Separate Concerns Between the Web Context and the Business Context</title>
+</head>
+<body><header id="banner">
+    <h2><a href="https://elixirfocus.com">ElixirFocus</a></h2>
+    <nav>
+        <ul>
+            <li>
+                <a href="/" title="posts">posts</a>
+            </li><li>
+                <a href="/projects/" title="projects">projects</a>
+            </li><li>
+                <a href="/about/" title="about">about</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main id="content">
+<article>
+    <header id="post-header">
+        <h1>Using Schemaless Changesets to Separate Concerns Between the Web Context and the Business Context</h1>
+        <div>
+            <time>September 7, 2021</time>
+            </div>
+    </header><blockquote>
+<p>With schemaless changesets you have the power to hand craft validations for specific web form presentations and define firm boundaries of responsibilities between your web presentation layer and the business-specific contexts of your app.</p>
+</blockquote>
+<p>It&rsquo;s a story we can all relate with. A new app is born using <code>mix phx.new hello</code>.</p>
+<p>Some <code>mix phx.gen</code> generators are used to begin to shape a solution, perhaps something like:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">$ mix phx.gen.html Blog Post posts body:string word_count:integer
+</code></pre></div><p>And then over time the <code>Post</code> schema grows. Different web forms are needed and so multiple <code>changeset</code> functions are added for the diverging user tasks.</p>
+<p>It gets to a point where no one wants to edit or refactor the schema since it has grown too large and complex.</p>
+<p>How do get we get out of this mess?</p>
+<h2 id="part-one-break-things-down">Part One: Break Things Down</h2>
+<p>When you find yourself with a large schema I would first look to how you can break down this <strong>BIG</strong> noun into other smaller nouns.</p>
+<p>Perhaps you have a large <code>User</code> entity. Maybe you could isolate and extract some of its responsibilities. Maybe introduce a <code>Credentials</code> entity and a user has many of them. Maybe break out a <code>Profile</code> and a user has one of those.</p>
+<p>Perhaps you have an <code>Notification</code> entity that is being mutated to track its progress through some kind of delivery process to a third party. Maybe instead of an ever mutating string value of <code>status</code> you introduce a new entity for <code>DeliveryAttempt</code> and then notifications can have many of those and derive a <code>status</code>. With less mutation you likely will need less changesets functions and the code will naturally be more focused.</p>
+<p>Breaking down domain concepts into smaller structures can improve the expressiveness and clarity of a codebase. Now, while I hope this little reminder can help brainstorm ideas for your own project there is another sneaky issue at play in our story and that is the changeset dependency problem.</p>
+<h2 id="part-two-breaking-your-changeset-dependencies">Part Two: Breaking Your Changeset Dependencies</h2>
+<p>As useful as Phoenix generators can be to stand up a basic app, or to get through a tutorial introducing you to concepts about the framework, there is a dark pattern you would be wise to acknowledge if accepting its compromise.</p>
+<p>In an ideal scenario an <code>Ecto.Changeset</code> should <strong>NOT</strong> have a dependency through line from an app&rsquo;s business context into the web controller and onto the web form of the page.</p>
+<p><strong>Letting a changeset that low in the stack influence the web forms is dangerous.</strong></p>
+<p>Lets explain.</p>
+<p>First, having any chunk of code touch too many layers begins to handicap your ability to refactor. I tend to align with the thought that &ldquo;Good Code Is Easy To Change Code&rdquo;. If you are looking for a simple measurement when evaluating the quality of a codebase, changeability is as good as any principle to lean on.</p>
+<figure>
+ <img src="layers.png" alt="Visual showing four layers of a typical Phoenix app.">
+ <figcaption>A common but brittle approach that creates strong dependencies across all the layers.</figcaption>
+</figure>
+<p>Second, having low stack changesets dictate web form behavior creates a dysfunctional approach to user experience design where you force the user to represent their work as it will (eventually) be persisted in a database table row. In an ideal situation you&rsquo;ll be crafting custom web forms to capture user intent and then transform the incoming data into the needed persistance format. Do not let the database dictate the user interface!</p>
+<h3 id="using-schemaless-changesets">Using Schemaless Changesets</h3>
+<p>So with all of that said, how does one use a <a href="https://hexdocs.pm/ecto/data-mapping-and-validation.html#schemaless-changesets">schemaless changesets</a>?</p>
+<p>Normally if you had a defined an Ecto schema like <code>Registration</code> you&rsquo;d build a changeset with code like:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:last_name</span><span class="p">,</span> <span class="ss">:email</span><span class="p">]</span>
+
+<span class="n">changeset</span> <span class="o">=</span>
+  <span class="p">%</span><span class="nc">Registration</span><span class="p">{}</span>
+  <span class="o">|&gt;</span> <span class="nc">Ecto.Changeset</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&#34;sign_up&#34;</span><span class="p">],</span> <span class="n">fields</span><span class="p">)</span>
+  <span class="o">|&gt;</span> <span class="n">validate_required</span><span class="p">(</span><span class="n">...</span><span class="p">)</span>
+  <span class="o">|&gt;</span> <span class="n">validate_length</span><span class="p">(</span><span class="n">...</span><span class="p">)</span>
+</code></pre></div><p>Creating a schemaless version is super easy and very much the same. Instead of starting the pipe with a schema type you instead start it with a simple tuple containing the data and some metadata about the data&rsquo;s types.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">data</span> <span class="o">=</span> <span class="p">%{}</span>
+<span class="n">types</span> <span class="o">=</span> <span class="p">%{</span><span class="ss">name</span><span class="p">:</span> <span class="ss">:string</span><span class="p">,</span> <span class="ss">email</span><span class="p">:</span> <span class="ss">:string</span><span class="p">}</span>
+
+<span class="c1"># The data+types tuple is equivalent to %Registration{}</span>
+<span class="n">changeset</span> <span class="o">=</span>
+  <span class="p">{</span><span class="n">data</span><span class="p">,</span> <span class="n">types</span><span class="p">}</span>
+  <span class="o">|&gt;</span> <span class="nc">Ecto.Changeset</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&#34;sign_up&#34;</span><span class="p">],</span> <span class="nc">Map</span><span class="o">.</span><span class="n">keys</span><span class="p">(</span><span class="n">types</span><span class="p">))</span>
+  <span class="o">|&gt;</span> <span class="n">validate_required</span><span class="p">(</span><span class="n">...</span><span class="p">)</span>
+  <span class="o">|&gt;</span> <span class="n">validate_length</span><span class="p">(</span><span class="n">...</span><span class="p">)</span>
+</code></pre></div><p>The <code>data</code> in this case can be a simple <code>Map</code> or a more defined struct. For example, in the RetroTaxi project there is a web form presented on the home page and so I built a <code>Struct</code> to represent <a href="https://github.com/elixirfocus/retro_taxi/blob/main/lib/retro_taxi/board_creation/request.ex">the request</a> like:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">RetroTaxi.BoardCreation.Request</span> <span class="k">do</span>
+  <span class="kd">defstruct</span> <span class="p">[</span><span class="ss">:board_name</span><span class="p">,</span> <span class="ss">:facilitator_name</span><span class="p">]</span>
+
+  <span class="na">@type</span> <span class="n">t</span> <span class="o">::</span> <span class="err">%</span><span class="n">__MODULE__</span><span class="p">{</span>
+          <span class="ss">board_name</span><span class="p">:</span> <span class="nc">String</span><span class="o">.</span><span class="n">t</span><span class="p">()</span> <span class="o">|</span> <span class="no">nil</span><span class="p">,</span>
+          <span class="ss">facilitator_name</span><span class="p">:</span> <span class="nc">String</span><span class="o">.</span><span class="n">t</span><span class="p">()</span> <span class="o">|</span> <span class="no">nil</span>
+        <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div><p>Later when creating a changeset we use this schemaless pattern:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">def</span> <span class="n">change_request</span><span class="p">(%</span><span class="nc">Request</span><span class="p">{}</span> <span class="o">=</span> <span class="n">request</span><span class="p">,</span> <span class="n">attrs</span> <span class="p">\\</span> <span class="p">%{})</span> <span class="k">do</span>
+  <span class="n">types</span> <span class="o">=</span> <span class="p">%{</span>
+    <span class="ss">board_name</span><span class="p">:</span> <span class="ss">:string</span><span class="p">,</span>
+    <span class="ss">facilitator_name</span><span class="p">:</span> <span class="ss">:string</span>
+  <span class="p">}</span>
+
+  <span class="p">{</span><span class="n">request</span><span class="p">,</span> <span class="n">types</span><span class="p">}</span>
+  <span class="o">|&gt;</span> <span class="nc">Changeset</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">attrs</span><span class="p">,</span> <span class="nc">Map</span><span class="o">.</span><span class="n">keys</span><span class="p">(</span><span class="n">types</span><span class="p">))</span>
+  <span class="o">|&gt;</span> <span class="nc">Changeset</span><span class="o">.</span><span class="n">validate_required</span><span class="p">([</span><span class="ss">:board_name</span><span class="p">,</span> <span class="ss">:facilitator_name</span><span class="p">])</span>
+  <span class="o">|&gt;</span> <span class="nc">Changeset</span><span class="o">.</span><span class="n">validate_length</span><span class="p">(</span><span class="ss">:board_name</span><span class="p">,</span> <span class="ss">min</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">max</span><span class="p">:</span> <span class="mi">255</span><span class="p">)</span>
+  <span class="o">|&gt;</span> <span class="nc">Changeset</span><span class="o">.</span><span class="n">validate_length</span><span class="p">(</span><span class="ss">:facilitator_name</span><span class="p">,</span> <span class="ss">min</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">max</span><span class="p">:</span> <span class="mi">255</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div><p>Other than this difference, you can use the changeset with the Phoenix form tool just like before.</p>
+<blockquote>
+<p>I&rsquo;ll also take a moment to give a nod to the <code>embedded_schema</code> Ecto type which can be used here in place of the arbitrary <code>Struct</code> or <code>Map</code>; see <a href="https://hexdocs.pm/ecto/data-mapping-and-validation.html">the documentation</a> for a full sample. My gut tells me to isolate usage of things called &ldquo;schemas&rdquo; to entities or values that will end up in the database for a greenfield project, but it&rsquo;s a small preference. I also like the idea that the concepts of &ldquo;changeset&rdquo; need not be limited to the Ecto library.</p>
+</blockquote>
+<h3 id="the-missing-error-gotcha">The Missing Error Gotcha</h3>
+<p>The one issue you may run into with this schemaless changeset approach is that as you test validations on your web forms you will not see any errors. The reason for this is that traditionally the changeset you render in a <code>POST</code> request will come out of a <code>Repo.insert/2</code> or <code>Repo.update/2</code> error tuple and that changeset will have its <code>action</code> attribute set to a non-nil <code>:insert</code> or <code>:update</code> value. The Phoenix web form tools use the presence of this value as a signal to render the errors. For us, this means we need to set <code>action</code> explicitly like the sample below.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir">  <span class="kd">def</span> <span class="n">process_request</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user_id</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">changeset</span> <span class="o">=</span> <span class="n">change_request</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="p">%{})</span>
+
+    <span class="k">case</span> <span class="n">changeset</span><span class="o">.</span><span class="n">valid?</span> <span class="k">do</span>
+      <span class="no">false</span> <span class="o">-&gt;</span>
+        <span class="c1"># We need to force an action value so the Phoenix forms will display the errors.</span>
+        <span class="p">{</span><span class="ss">:error</span><span class="p">,</span> <span class="p">%{</span><span class="n">changeset</span> <span class="o">|</span> <span class="ss">action</span><span class="p">:</span> <span class="ss">:insert</span><span class="p">}}</span>
+
+      <span class="no">true</span> <span class="o">-&gt;</span>
+        <span class="c1"># Perform the actual request.</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div><h2 id="conclusion">Conclusion</h2>
+<p>With schemaless changesets you have the power to hand craft validations for specific web form presentations and define firm boundaries of responsibilities between your web presentation layer and the business-specific contexts of your app. Lots of people will not invest in this separation of concerns, and depending on the life-cycle of the application and the needs of your users that might be fine. If however, you find yourself making multiple flavors of changeset for your business nouns and various web forms &ndash; it might be time to rethink your approach.</p>
+<script async data-uid="9a535df048" src="https://elixirfocus.ck.page/9a535df048/index.js"></script>
+</article>
+
+        </main><footer id="footer">
+    Copyright © 2021 ElixirFocus
+</footer>
+<script async src="//static.getclicky.com/101330369.js"></script>
+        <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/101330369ns.gif" /></p></noscript>
+    </body>
+</html>

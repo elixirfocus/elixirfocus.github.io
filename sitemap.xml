@@ -2,11 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://elixirfocus.com/tags/boundaries/</loc>
+    <lastmod>2021-09-07T08:00:00-04:00</lastmod>
+  </url><url>
+    <loc>https://elixirfocus.com/tags/changeset/</loc>
+    <lastmod>2021-09-07T08:00:00-04:00</lastmod>
+  </url><url>
+    <loc>https://elixirfocus.com/tags/ecto/</loc>
+    <lastmod>2021-09-07T08:00:00-04:00</lastmod>
+  </url><url>
     <loc>https://elixirfocus.com/</loc>
-    <lastmod>2021-09-02T09:00:41-04:00</lastmod>
+    <lastmod>2021-09-07T08:00:00-04:00</lastmod>
   </url><url>
     <loc>https://elixirfocus.com/posts/</loc>
-    <lastmod>2021-09-02T09:00:41-04:00</lastmod>
+    <lastmod>2021-09-07T08:00:00-04:00</lastmod>
+  </url><url>
+    <loc>https://elixirfocus.com/tags/</loc>
+    <lastmod>2021-09-07T08:00:00-04:00</lastmod>
+  </url><url>
+    <loc>https://elixirfocus.com/posts/ecto-schemaless-changesets/</loc>
+    <lastmod>2021-09-07T08:00:00-04:00</lastmod>
   </url><url>
     <loc>https://elixirfocus.com/posts/retro-taxi-project-sept-2021-update/</loc>
     <lastmod>2021-09-02T09:00:41-04:00</lastmod>
@@ -33,9 +48,6 @@
     <lastmod>2021-02-22T14:00:00-05:00</lastmod>
   </url><url>
     <loc>https://elixirfocus.com/tags/security/</loc>
-    <lastmod>2021-02-22T14:00:00-05:00</lastmod>
-  </url><url>
-    <loc>https://elixirfocus.com/tags/</loc>
     <lastmod>2021-02-22T14:00:00-05:00</lastmod>
   </url><url>
     <loc>https://elixirfocus.com/tags/webhooks/</loc>
