@@ -37,7 +37,7 @@
 <p>It&rsquo;s a story we can all relate with. A new app is born using <code>mix phx.new hello</code>.</p>
 <p>Some <code>mix phx.gen</code> generators are used to begin to shape a solution, perhaps something like:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">$ mix phx.gen.html Blog Post posts body:string word_count:integer
-</code></pre></div><p>And then over time the <code>Post</code> schema grows. Different web forms are needed and so multiple <code>changeset</code> functions are added for the diverging user tasks.</p>
+</code></pre></div><p>And then over time the <code>Post</code> schema grows. Different web forms are needed and so multiple <code>changeset</code> functions are added for the diverging user tasks. You might even start adding <code>virtual</code> fields to schemas just to handle web form needs.</p>
 <p>It gets to a point where no one wants to edit or refactor the schema since it has grown too large and complex.</p>
 <p>How do get we get out of this mess?</p>
 <h2 id="part-one-break-things-down">Part One: Break Things Down</h2>
@@ -109,15 +109,22 @@
 
     <span class="k">case</span> <span class="n">changeset</span><span class="o">.</span><span class="n">valid?</span> <span class="k">do</span>
       <span class="no">false</span> <span class="o">-&gt;</span>
+        <span class="c1"># In the first published version of this post we edited the `action` directly but</span>
+        <span class="c1"># it is probably safer to use the defined `apply_action` function, though the </span>
+        <span class="c1"># result is pretty much the same.</span>
+        <span class="c1"># {:error, %{changeset | action: :insert}}</span>
+
         <span class="c1"># We need to force an action value so the Phoenix forms will display the errors.</span>
-        <span class="p">{</span><span class="ss">:error</span><span class="p">,</span> <span class="p">%{</span><span class="n">changeset</span> <span class="o">|</span> <span class="ss">action</span><span class="p">:</span> <span class="ss">:insert</span><span class="p">}}</span>
+        <span class="c1"># Code is more explicit here for demonstration purposes.        </span>
+        <span class="p">{</span><span class="ss">:error</span><span class="p">,</span> <span class="n">changeset_with_action</span><span class="p">}</span> <span class="o">=</span> <span class="nc">Ecto.Changeset</span><span class="o">.</span><span class="n">apply_action</span><span class="p">(</span><span class="n">changeset</span><span class="p">,</span> <span class="ss">:insert</span><span class="p">)</span>
+        <span class="p">{</span><span class="ss">:error</span><span class="p">,</span> <span class="n">changeset_with_action</span><span class="p">}</span>
 
       <span class="no">true</span> <span class="o">-&gt;</span>
         <span class="c1"># Perform the actual request.</span>
     <span class="k">end</span>
   <span class="k">end</span>
 </code></pre></div><h2 id="conclusion">Conclusion</h2>
-<p>With schemaless changesets you have the power to hand craft validations for specific web form presentations and define firm boundaries of responsibilities between your web presentation layer and the business-specific contexts of your app. Lots of people will not invest in this separation of concerns, and depending on the life-cycle of the application and the needs of your users that might be fine. If however, you find yourself making multiple flavors of changeset for your business nouns and various web forms &ndash; it might be time to rethink your approach.</p>
+<p>With schemaless changesets you have the power to hand craft validations for specific web form presentations and define firm boundaries of responsibilities between your web presentation layer and the business-specific contexts of your app. Lots of people will not invest in this separation of concerns, and depending on the life-cycle of the application and the needs of your users that might be fine. If however, you find yourself making multiple flavors of changeset or adding lots of <code>virtual</code> fields to a schema just to make the web forms fit in &ndash; it might be time to rethink your approach.</p>
 <script async data-uid="9a535df048" src="https://elixirfocus.ck.page/9a535df048/index.js"></script>
 </article>
 
