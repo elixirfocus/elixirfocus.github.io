@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ElixirFocus provides educational content for Elixir developers looking to evolve their coding skills.">
+    
+    <link rel="shortcut icon" href="https://elixirfocus.com/favicon.ico">
+    
+    <link rel="stylesheet" href="/css/style.min.css">
+
+    <title>Elixir Terminology: Parameters vs Attributes</title>
+</head>
+<body><header id="banner">
+    <h2><a href="https://elixirfocus.com">ElixirFocus</a></h2>
+    <nav>
+        <ul>
+            <li>
+                <a href="/" title="posts">posts</a>
+            </li><li>
+                <a href="/projects/" title="projects">projects</a>
+            </li><li>
+                <a href="/about/" title="about">about</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main id="content">
+<article>
+    <header id="post-header">
+        <h1>Elixir Terminology: Parameters vs Attributes</h1>
+        <div>
+            <time>September 13, 2021</time>
+            </div>
+    </header><p>I&rsquo;ve written about being <a href="https://elixirfocus.com/posts/programming-terminology/">explicit and mindful about programming terminology</a> before and today we&rsquo;ll look at another specific Elixir terminology example: parameters vs attributes.</p>
+<p>If you create a new Phoenix app and use the generators to stub out a simple CRUD experience you will no doubt observe web controller functions like:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">HelloWeb.PostController</span> <span class="k">do</span>
+  <span class="c1"># ...</span>
+  <span class="kd">def</span> <span class="n">create</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="p">%{</span><span class="s2">&#34;post&#34;</span> <span class="o">=&gt;</span> <span class="n">post_params</span><span class="p">})</span> <span class="k">do</span>
+    <span class="k">case</span> <span class="nc">Blog</span><span class="o">.</span><span class="n">create_post</span><span class="p">(</span><span class="n">post_params</span><span class="p">)</span> <span class="k">do</span>
+      <span class="c1"># ...</span>
+    <span class="k">end</span>  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div><p>And internal schema module functions like:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">Hello.Blog.Post</span> <span class="k">do</span>
+  <span class="c1"># ...</span>
+  <span class="kd">def</span> <span class="n">changeset</span><span class="p">(</span><span class="n">post</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">post</span>
+    <span class="o">|&gt;</span> <span class="n">cast</span><span class="p">(</span><span class="n">attrs</span><span class="p">,</span> <span class="p">[</span><span class="ss">:body</span><span class="p">,</span> <span class="ss">:word_count</span><span class="p">])</span>
+    <span class="o">|&gt;</span> <span class="n">validate_required</span><span class="p">([</span><span class="ss">:body</span><span class="p">,</span> <span class="ss">:word_count</span><span class="p">])</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div><p>Observing function argument names like <code>post_params</code> (short for parameters) and <code>attr</code> (short for attributes) how do we reconcile those naming choices?</p>
+<h2 id="parameters">Parameters</h2>
+<p>When we say &ldquo;parameters&rdquo; we are usually talking about data coming into the system from external actors, like a user POST-ing data from a web form or an API accepting a request. Parameters are generally considered unsafe. Since the contents are dynamic they will almost always be made from maps using string keys to avoid the known runtime capacity limitations of <code>:atom</code> keys.</p>
+<h2 id="attributes">Attributes</h2>
+<p>When we say &ldquo;attributes&rdquo; we are usually talking about internal Elixir structures. When a function accepts a simple map argument labeled <code>attr</code>, as seen in our example, I think we can lean on the <a href="https://www.merriam-webster.com/dictionary/attribute">definition for attribute</a> which says, &ldquo;a quality, character, or characteristic ascribed to someone or something&rdquo;.</p>
+<p>While <code>attr</code> is a community norm for incoming function arguments, there is an unfortunate overlap with some official Elixir terminology. A <a href="https://hexdocs.pm/elixir/Module.html#module-module-attributes">module attribute</a> is how we describe those at sign (<code>@</code>) declarations like <code>@email</code> below.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">ContactSupport</span> <span class="k">do</span>
+  <span class="na">@email</span> <span class="s2">&#34;zorn@elixirfocus.com&#34;</span>
+<span class="k">end</span>
+</code></pre></div><hr>
+<p>Short post today, but hopefully some helpful context about some community naming norms.</p>
+<script async data-uid="9a535df048" src="https://elixirfocus.ck.page/9a535df048/index.js"></script>
+</article>
+
+        </main><footer id="footer">
+    Copyright © 2021 ElixirFocus
+</footer>
+<script async src="//static.getclicky.com/101330369.js"></script>
+        <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/101330369ns.gif" /></p></noscript>
+    </body>
+</html>

@@ -6,9 +6,22 @@
     <description>Recent content in Home on ElixirFocus</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Tue, 07 Sep 2021 08:00:00 -0400</lastBuildDate>
+    <lastBuildDate>Mon, 13 Sep 2021 10:00:00 -0400</lastBuildDate>
     
 	<atom:link href="https://elixirfocus.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+    <item>
+      <title>Elixir Terminology: Parameters vs Attributes</title>
+      <link>https://elixirfocus.com/posts/parameters-vs-attributes/</link>
+      <pubDate>Mon, 13 Sep 2021 10:00:00 -0400</pubDate>
+      
+      <guid>https://elixirfocus.com/posts/parameters-vs-attributes/</guid>
+      <description>I&amp;rsquo;ve written about being explicit and mindful about programming terminology before and today we&amp;rsquo;ll look at another specific Elixir terminology example: parameters vs attributes.
+If you create a new Phoenix app and use the generators to stub out a simple CRUD experience you will no doubt observe web controller functions like:
+defmodule HelloWeb.PostController do # ... def create(conn, %{&amp;#34;post&amp;#34; =&amp;gt; post_params}) do case Blog.create_post(post_params) do # ... end end end And internal schema module functions like:</description>
+    </item>
     
     
     
