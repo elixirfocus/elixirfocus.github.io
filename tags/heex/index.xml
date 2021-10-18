@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>dialyzer on ElixirFocus</title>
-    <link>https://elixirfocus.com/tags/dialyzer/</link>
-    <description>Recent content in dialyzer on ElixirFocus</description>
+    <title>heex on ElixirFocus</title>
+    <link>https://elixirfocus.com/tags/heex/</link>
+    <description>Recent content in heex on ElixirFocus</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Wed, 20 Jan 2021 08:51:42 -0500</lastBuildDate>
+    <lastBuildDate>Mon, 18 Oct 2021 12:00:00 -0400</lastBuildDate>
     
-	<atom:link href="https://elixirfocus.com/tags/dialyzer/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://elixirfocus.com/tags/heex/index.xml" rel="self" type="application/rss+xml" />
     
     
     

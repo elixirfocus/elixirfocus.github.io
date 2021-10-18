@@ -2,19 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://elixirfocus.com/tags/heex/</loc>
+    <lastmod>2021-10-18T12:00:00-04:00</lastmod>
+  </url><url>
+    <loc>https://elixirfocus.com/</loc>
+    <lastmod>2021-10-18T12:00:00-04:00</lastmod>
+  </url><url>
+    <loc>https://elixirfocus.com/posts/phoenix-1.6-upgrade-notes/</loc>
+    <lastmod>2021-10-18T12:00:00-04:00</lastmod>
+  </url><url>
+    <loc>https://elixirfocus.com/tags/phoenix/</loc>
+    <lastmod>2021-10-18T12:00:00-04:00</lastmod>
+  </url><url>
+    <loc>https://elixirfocus.com/posts/</loc>
+    <lastmod>2021-10-18T12:00:00-04:00</lastmod>
+  </url><url>
+    <loc>https://elixirfocus.com/tags/</loc>
+    <lastmod>2021-10-18T12:00:00-04:00</lastmod>
+  </url><url>
+    <loc>https://elixirfocus.com/tags/upgrade/</loc>
+    <lastmod>2021-10-18T12:00:00-04:00</lastmod>
+  </url><url>
     <loc>https://elixirfocus.com/posts/parameters-vs-attributes/</loc>
     <lastmod>2021-09-13T10:00:00-04:00</lastmod>
   </url><url>
-    <loc>https://elixirfocus.com/</loc>
-    <lastmod>2021-09-13T10:00:00-04:00</lastmod>
-  </url><url>
     <loc>https://elixirfocus.com/tags/naming/</loc>
-    <lastmod>2021-09-13T10:00:00-04:00</lastmod>
-  </url><url>
-    <loc>https://elixirfocus.com/posts/</loc>
-    <lastmod>2021-09-13T10:00:00-04:00</lastmod>
-  </url><url>
-    <loc>https://elixirfocus.com/tags/</loc>
     <lastmod>2021-09-13T10:00:00-04:00</lastmod>
   </url><url>
     <loc>https://elixirfocus.com/tags/terminology/</loc>

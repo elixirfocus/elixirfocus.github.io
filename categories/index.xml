@@ -12,6 +12,18 @@
     
     
     <item>
+      <title>Personal Phoenix 1.6 Upgrade Notes</title>
+      <link>https://elixirfocus.com/posts/phoenix-1.6-upgrade-notes/</link>
+      <pubDate>Mon, 18 Oct 2021 12:00:00 -0400</pubDate>
+      
+      <guid>https://elixirfocus.com/posts/phoenix-1.6-upgrade-notes/</guid>
+      <description>Over the past few days I&amp;rsquo;ve been upgrading my projects to Phoenix 1.6 and like any project that comes out of a template-based generator, migrating a Phoenix project to a new version can be a little scary and error prone, particularly for people new to Elixir and Phoenix. Today I&amp;rsquo;ll share some personal notes and tips to hopefully make the process a little smoother.
+Step 0: Skip the Manual Upgrade (Maybe?</description>
+    </item>
+    
+    
+    
+    <item>
       <title>Elixir Terminology: Parameters vs Attributes</title>
       <link>https://elixirfocus.com/posts/parameters-vs-attributes/</link>
       <pubDate>Mon, 13 Sep 2021 10:00:00 -0400</pubDate>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ElixirFocus provides educational content for Elixir developers looking to evolve their coding skills.">
+    
+    <link rel="shortcut icon" href="https://elixirfocus.com/favicon.ico">
+    
+    <link rel="stylesheet" href="/css/style.min.css">
+
+    <title>Personal Phoenix 1.6 Upgrade Notes</title>
+</head>
+<body><header id="banner">
+    <h2><a href="https://elixirfocus.com">ElixirFocus</a></h2>
+    <nav>
+        <ul>
+            <li>
+                <a href="/" title="posts">posts</a>
+            </li><li>
+                <a href="/projects/" title="projects">projects</a>
+            </li><li>
+                <a href="/about/" title="about">about</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main id="content">
+<article>
+    <header id="post-header">
+        <h1>Personal Phoenix 1.6 Upgrade Notes</h1>
+        <div>
+            <time>October 18, 2021</time>
+            </div>
+    </header><p>Over the past few days I&rsquo;ve been <a href="https://github.com/elixirfocus/retro_taxi/pull/24">upgrading my projects to Phoenix 1.6</a> and like any project that comes out of a template-based generator, migrating a Phoenix project to a new version can be a little scary and error prone, particularly for people new to Elixir and Phoenix. Today I&rsquo;ll share some personal notes and tips to hopefully make the process a little smoother.</p>
+<h2 id="step-0-skip-the-manual-upgrade-maybe">Step 0: Skip the Manual Upgrade (Maybe?)</h2>
+<p>Depending on the scale and circumstances of your project you might consider just re-generating a new project using <code>mix phx.new</code> and bringing over your old code into the fresh template. I wouldn&rsquo;t recommend this for any project that had meaningful git history or other collaborators, but for smaller personal projects it might be the path of least resistance.</p>
+<p>You&rsquo;ll probably want the new project generator regardless and can  install it with:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">$ mix archive.install hex phx_new
+</code></pre></div><h2 id="step-1-familiarize-yourself-with-the-new-version">Step 1: Familiarize Yourself with the New Version</h2>
+<p>Before blindly attempting the upgrade it would be best to read the <a href="https://www.phoenixframework.org/blog/phoenix-1.6-released">official blog announcement</a>, review the <a href="https://github.com/phoenixframework/phoenix/blob/3ba0f6fc3407d4ddc08c05715ff8b24cb367d8bd/CHANGELOG.md#160-rc0-2021-08-26">project changelog</a> and preview <a href="https://gist.github.com/chrismccord/2ab350f154235ad4a4d0f4de6decba7b">Chris McCord&rsquo;s personal upgrade notes</a>. You might want to also bookmark documentation for specific new features, like <a href="https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.Helpers.html#sigil_H/2">heex templates</a>.</p>
+<h2 id="step-2-get-your-project-is-a-stable-state">Step 2: Get Your Project is a Stable State</h2>
+<p>Make sure your project is building clean, the tests are passing and the typespecs are um, type spec-ing. Push your changes to remote and start a new <code>upgrade-phoenix</code> branch. It would be best if you work through the upgrade in chunks and verify these things as you go.</p>
+<h2 id="step-3-update-elixir-and-project-dependencies">Step 3: Update Elixir and Project Dependencies</h2>
+<p>If you can, now is a good time to explicitly require Elixir 1.12 as the minimum version of your project. This is not an absolute requirement, but as described in the <a href="https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.Helpers.html#sigil_H/2">heex docs</a>, it will improve your error messages:</p>
+<blockquote>
+<p>Note: HEEx requires Elixir &gt;= 1.12.0 in order to provide accurate file:line:column information in error messages. Earlier Elixir versions will work but will show inaccurate error messages.</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir">  <span class="c1"># mix.exs</span>
+  <span class="kd">def</span> <span class="n">project</span> <span class="k">do</span>
+    <span class="p">[</span>
+      <span class="c1"># ...</span>
+      <span class="ss">elixir</span><span class="p">:</span> <span class="s2">&#34;~&gt; 1.12&#34;</span><span class="p">,</span>
+    <span class="p">]</span>
+  <span class="k">end</span>
+</code></pre></div><p>If you are using an <a href="https://asdf-vm.com/">asdf</a> for version management you might also want to update your <code>.tool-versions</code> file as well.</p>
+<p>Next run <code>mix hex.outdated</code> to see what dependency updates are available. You&rsquo;ll see a bunch of stuff for the new Phoenix 1.6 release, which at the time of this post is up to <code>1.6.2</code>. For one of our currently outdated projects I get the following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">$ mix hex.outdated
+Dependency              Current  Latest   Status               
+credo                   1.5.6    1.5.6    Up-to-date           
+dialyxir                1.1.0    1.1.0    Up-to-date           
+ecto_sql                3.6.2    3.7.1    Update possible      
+floki                   0.29.0   0.31.0   Update not possible  
+gettext                 0.18.2   0.18.2   Up-to-date           
+jason                   1.2.2    1.2.2    Up-to-date           
+mix_test_watch          1.0.3    1.1.0    Update possible      
+phoenix                 1.5.9    1.6.2    Update not possible  
+phoenix_ecto            4.3.0    4.4.0    Update possible      
+phoenix_html            2.14.3   3.0.4    Update not possible  
+phoenix_live_dashboard  0.4.0    0.5.3    Update possible      
+phoenix_live_reload     1.3.3    1.3.3    Up-to-date           
+plug_cowboy             2.5.1    2.5.2    Update possible      
+postgrex                0.15.10  0.15.12  Update possible      
+telemetry_metrics       0.6.1    0.6.1    Up-to-date           
+telemetry_poller        0.5.1    1.0.0    Update not possible
+</code></pre></div><p>Using the above collection of versions you can update your <code>mix.exs</code> deps list. To verify these work try running the following commands in series:</p>
+<ul>
+<li><code>mix deps.clean --all</code></li>
+<li><code>mix clean</code></li>
+<li><code>mix deps.get</code></li>
+<li><code>mix compile</code></li>
+<li><code>mix test</code></li>
+</ul>
+<p>Fix any issues that popup and then you can commit your progress and start to consider some of the optional parts of the 1.6 upgrade.</p>
+<h2 id="step-4-migrate-to-heex-templates-optional">Step 4: Migrate to <code>heex</code> Templates (optional)</h2>
+<p>The new template system is called <code>heex</code> (pronounced <code>heaks</code>) and is more HTML-aware, helping report issues like missing <code>div</code> tags at compile time. The new <code>heex</code> templates will help resolve a notable collection of common LiveView and CSS bugs as well as provide nicer inline functions.</p>
+<p>While <code>heex</code> templates are great they are optional for now. Previous <code>eex</code> and <code>leex</code> templates still work but are considered deprecated. If you want to start to migrate to <code>heex</code> I would check out <a href="https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.Helpers.html#sigil_H/2">the docs</a> for a quick overview and then start renaming your file extensions like:</p>
+<ul>
+<li><code>app.html.eex</code> to <code>app.html.heex</code></li>
+<li><code>live.html.leex</code> to <code>app.html.heex</code></li>
+</ul>
+<p>For inline templates you&rsquo;ll use the new <code>~H</code> sigil instead of <code>~L</code> sigil.</p>
+<p>As you make these changes the compiler will inform you what needs updating. For my own RetroTaxi project most <code>heex</code> updates involved migrating HTML attributes like:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="gd">- &lt;div id=&#34;topic-card-&lt;%= @topic_card.id %&gt;&#34;&gt;
+</span><span class="gd"></span><span class="gi">+ &lt;div id={&#34;topic-card#{@topic_card.id}&#34;}&gt;
+</span></code></pre></div><p>and</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="gd">- &lt;button phx-click=&#34;start_discussion_phase&#34; phx-target=&#34;&lt;%= @myself %&gt;&#34;
+</span><span class="gd"></span><span class="gi">+ &lt;button phx-click=&#34;start_discussion_phase&#34; phx-target={@myself}
+</span></code></pre></div><p>I also ended up using the new <code>&lt;.form&gt;</code> component, which honors the tag aware templates while also addressing a <a href="https://hexdocs.pm/phoenix_live_view/Phoenix.LiveComponent.html#module-change-tracking-requirement">known technical limitation</a> of <code>live_components</code> being wrapped in a block, which is a common pattern inside forms.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="gd">- &lt;%= f = form_for @changeset, &#34;#&#34;, phx_submit: &#34;save&#34;, phx_target: @myself %&gt;
+</span><span class="gd">- &lt;!-- stuff --&gt;
+</span><span class="gd">- &lt;/form&gt;
+</span><span class="gd"></span><span class="gi">+ &lt;.form let={f} for={@changeset} phx_submit={&#34;save&#34;} phx_target={@myself}&gt;
+</span><span class="gi">+ &lt;!-- stuff --&gt;
+</span><span class="gi">+ &lt;/.form&gt;
+</span></code></pre></div><h2 id="step-5-migrate-to-esbuild-optional">Step 5: Migrate to esbuild (optional)</h2>
+<p>With Phoenix 1.6 all new project templates will default to <a href="https://esbuild.github.io/">esbuild</a> over the historic webpack for asset bundling. This was a change made in an effort to improve long term stability, as npm and webpack have been a huge source of bugs and maintenance issues inside the Phoenix project. This is however an optional change when upgrading older Phoenix projects.</p>
+<p>If you already have invested in any webpack customizations you might just want to keep using it.</p>
+<p>If your needs are simple and you&rsquo;d like to give esbuild a spin it can be swapped in without too much work. Chris McCord&rsquo;s <a href="https://gist.github.com/chrismccord/2ab350f154235ad4a4d0f4de6decba7b">upgrade document</a> has an in-depth set of edits you can follow. I did those steps myself with RetroTaxi and then once I got it all working, went back and re-added my Tailwind dependencies following <a href="https://pragmaticstudio.com/tutorials/adding-tailwind-css-to-phoenix">Mike Clark&rsquo;s blog post</a>. I ended up with a very basic <a href="https://github.com/elixirfocus/retro_taxi/blob/main/assets/package.json">package.json</a> file.</p>
+<blockquote>
+<p>Aside: One notable question I still have regarding esbuild is the new command: <code>mix assets.deploy</code>. It seems curious to me that running this with the new <code>.gitignore</code> patterns results in a dirty git state. Is this wanted/expected behavior? If you have any thoughts let me know.</p>
+</blockquote>
+<h2 id="step-6-the-little-things">Step 6: The Little Things</h2>
+<p>There are lots of little things you can notice comparing your current Phoenix 1.5 project with a freshly generated 1.6 project. In fact I recommend using <code>mix phx.new hello</code> (substituting your own project name for <code>hello</code> to help with easier copy and paste) and then compare the new project files 1:1 against your current project. You&rsquo;ll no doubt notice things like:</p>
+<ul>
+<li>the move from <code>use Mix.Config</code> to <code>import Config</code> and other related config file changes.</li>
+<li>the addition of <a href="https://github.com/swoosh/swoosh">Swoosh</a>, an email composition and delivery tool, to your project dependency list.</li>
+<li>how the path of assets in an esbuild setup will effect your <code>.gitignore</code> file and other template references.</li>
+<li>the introduction of <code>topbar</code> as a static JS library replacing the previous <code>NProgress</code> dependency.</li>
+<li>slight changes to the generated telemetry descriptions.</li>
+<li>slight changes to how the Ecto sandbox is started during test mode.</li>
+<li>new complier warning suppressions for LiveDashboard, which will intentionally not be available in production by default.</li>
+</ul>
+<p>For RetroTaxi I tried to honor these changes as much as possible.</p>
+<p>One helpful tool to do this kind of template comparison at a glace is PhoenixDiffs:</p>
+<p><a href="https://www.phoenixdiff.org/?source=1.5.12&amp;target=1.6.0">https://www.phoenixdiff.org/?source=1.5.12&amp;target=1.6.0</a></p>
+<h2 id="my-final-upgrade-pr-and-next-steps">My Final Upgrade PR and Next Steps</h2>
+<p>The final RetroTaxi Phoenix 1.6 upgrade PR is here if you want to take a peek:</p>
+<p><a href="https://github.com/elixirfocus/retro_taxi/pull/24/">https://github.com/elixirfocus/retro_taxi/pull/24/</a></p>
+<p>One new feature I have my eye on but did not get around too (yet) is <a href="https://hexdocs.pm/phoenix_live_view/Phoenix.Component.html">Phoenix.Component</a>. I should be able to use this in favor of some historic stateless <code>LiveComponent</code> modules, which is no longer recommended, as seen in the docs quoted below:</p>
+<blockquote>
+<p>Note: previous LiveView versions allowed the <code>:id</code> to be skipped on <code>live_component</code> but those are now discouraged since the addition of function components, outlined in <code>Phoenix.Component</code>.</p>
+</blockquote>
+<hr>
+<p>Hopefully these notes provide some help and comfort as you upgrade your own Phoenix projects to 1.6. I&rsquo;m curious how we can continue to improve this process in the future and even have my eye on some new Elixir <a href="https://hexdocs.pm/elixir/master/changelog.html#extended-code-formatting">1.13 changes</a> that could help by &ldquo;supporting developers who wish to create tools that directly manipulate and custom format Elixir source code&rdquo;.</p>
+<p>Thanks again to the entire Phoenix team for an outstanding release!</p>
+<script async data-uid="9a535df048" src="https://elixirfocus.ck.page/9a535df048/index.js"></script>
+</article>
+
+        </main><footer id="footer">
+    Copyright © 2021 ElixirFocus
+</footer>
+<script async src="//static.getclicky.com/101330369.js"></script>
+        <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/101330369ns.gif" /></p></noscript>
+    </body>
+</html>
